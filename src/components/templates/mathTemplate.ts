@@ -11,7 +11,7 @@ export const generateMathWorksheet = (
 
   for (let i = 0; i < numQuestions; i++) {
     const operation = operations[Math.floor(Math.random() * operations.length)];
-    const question = generateMathQuestion(i + 1, operation, difficulty, language);
+    const question = generateMathQuestion(i + 1, operation, difficulty);
     questions.push(question);
   }
 
@@ -37,8 +37,7 @@ export const generateMathWorksheet = (
 const generateMathQuestion = (
   id: number,
   operation: 'addition' | 'subtraction' | 'multiplication' | 'division',
-  difficulty: 'easy' | 'medium' | 'hard',
-  _language: 'he' | 'en'
+  difficulty: 'easy' | 'medium' | 'hard'
 ): MathQuestion => {
   let operands: number[];
   let answer: number;
@@ -64,7 +63,7 @@ const generateMathQuestion = (
       answer = operands[0] - operands[1];
       symbol = '-';
       break;
-    case 'multiplication':
+    case 'multiplication': {
       const multMax = difficulty === 'easy' ? 10 : difficulty === 'medium' ? 20 : 50;
       operands = [
         Math.floor(Math.random() * multMax) + 1,
@@ -73,13 +72,15 @@ const generateMathQuestion = (
       answer = operands[0] * operands[1];
       symbol = '×';
       break;
-    case 'division':
+    }
+    case 'division': {
       const divisor = Math.floor(Math.random() * (maxNum / 10)) + 1;
       const quotient = Math.floor(Math.random() * (maxNum / 10)) + 1;
       operands = [divisor * quotient, divisor];
       answer = quotient;
       symbol = '÷';
       break;
+    }
     default:
       operands = [1, 1];
       answer = 2;

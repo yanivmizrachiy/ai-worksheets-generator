@@ -182,7 +182,7 @@ export const AIGenerationPanel: React.FC<AIGenerationPanelProps> = ({
             </label>
             <select
               value={prompt.type}
-              onChange={(e) => setPrompt({ ...prompt, type: e.target.value as any })}
+              onChange={(e) => setPrompt({ ...prompt, type: e.target.value as 'math' | 'geometry' | 'custom' })}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             >
               <option value="math">{isHebrew ? 'מתמטיקה' : 'Math'}</option>
@@ -213,7 +213,7 @@ export const AIGenerationPanel: React.FC<AIGenerationPanelProps> = ({
             </label>
             <select
               value={prompt.difficulty}
-              onChange={(e) => setPrompt({ ...prompt, difficulty: e.target.value as any })}
+              onChange={(e) => setPrompt({ ...prompt, difficulty: e.target.value as 'easy' | 'medium' | 'hard' })}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             >
               <option value="easy">{isHebrew ? 'קל' : 'Easy'}</option>

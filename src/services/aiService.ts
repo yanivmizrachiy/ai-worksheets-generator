@@ -3,7 +3,7 @@ import type { GenerationPrompt, AIResponse } from '../types/ai';
 
 class AIService {
   private genAI: GoogleGenerativeAI | null = null;
-  private model: any = null;
+  private model: ReturnType<GoogleGenerativeAI['getGenerativeModel']> | null = null;
 
   initialize(apiKey: string) {
     try {

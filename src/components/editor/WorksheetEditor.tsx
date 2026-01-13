@@ -31,7 +31,7 @@ export const WorksheetEditor: React.FC<WorksheetEditorProps> = ({
     });
   };
 
-  const handleQuestionChange = (index: number, field: keyof Question, value: any) => {
+  const handleQuestionChange = (index: number, field: keyof Question, value: string | number | string[] | undefined) => {
     const newQuestions = [...worksheet.content.questions];
     newQuestions[index] = {
       ...newQuestions[index],

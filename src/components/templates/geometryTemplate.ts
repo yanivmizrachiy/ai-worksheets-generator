@@ -48,7 +48,7 @@ const generateGeometryQuestion = (
   const problemType = Math.random() > 0.5 ? 'area' : 'perimeter';
 
   switch (shape) {
-    case 'circle':
+    case 'circle': {
       const radius = Math.floor(Math.random() * maxDimension) + 1;
       properties = { radius };
       
@@ -66,8 +66,9 @@ const generateGeometryQuestion = (
           : `Calculate the perimeter of a circle with radius ${radius} cm`;
       }
       break;
+    }
 
-    case 'square':
+    case 'square': {
       const side = Math.floor(Math.random() * maxDimension) + 1;
       properties = { side };
       
@@ -83,8 +84,9 @@ const generateGeometryQuestion = (
           : `Calculate the perimeter of a square with side ${side} cm`;
       }
       break;
+    }
 
-    case 'rectangle':
+    case 'rectangle': {
       const length = Math.floor(Math.random() * maxDimension) + 1;
       const width = Math.floor(Math.random() * maxDimension) + 1;
       properties = { length, width };
@@ -101,8 +103,9 @@ const generateGeometryQuestion = (
           : `Calculate the perimeter of a rectangle with length ${length} cm and width ${width} cm`;
       }
       break;
+    }
 
-    case 'triangle':
+    case 'triangle': {
       const base = Math.floor(Math.random() * maxDimension) + 1;
       const height = Math.floor(Math.random() * maxDimension) + 1;
       properties = { base, height };
@@ -112,6 +115,7 @@ const generateGeometryQuestion = (
         ? `חשב את שטח המשולש עם בסיס ${base} ס"מ וגובה ${height} ס"מ`
         : `Calculate the area of a triangle with base ${base} cm and height ${height} cm`;
       break;
+    }
 
     default:
       text = '';

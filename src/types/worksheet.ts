@@ -13,7 +13,7 @@ export type WorksheetType = 'math' | 'geometry' | 'custom';
 export interface WorksheetContent {
   questions: Question[];
   instructions?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface Question {
