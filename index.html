@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מחולל דפי עבודה - Live Preview</title>
+    <title>מחולל דפי עבודה A4 - Live Preview</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
+        @page { size: A4; margin: 0; }
+        @media print { body { margin: 0; } .no-print { display: none !important; } }
+        .a4-page { width: 210mm; height: 297mm; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin: 20px auto; padding: 20mm; box-sizing: border-box; }
         .editor { font-family: 'Courier New', monospace; }
-        #preview { border: 1px solid #ddd; min-height: 400px; background: white; }
+        #preview { background: #f5f5f5; padding: 20px; min-height: 400px; }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen p-6">
-    <div class="max-w-7xl mx-auto">
+<body class="bg-gray-100 min-h-screen p-4">
+    <div class="max-w-7xl mx-auto no-print">
         <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-            <h1 class="text-4xl font-bold text-indigo-600 mb-2">מחולל דפי עבודה עם Live Preview</h1>
-            <p class="text-gray-600">הכנס קוד HTML וראה תוצאה בזמן אמת עם יכולת ייצוא ל-PDF</p>
+            <h1 class="text-4xl font-bold text-indigo-600 mb-2">מחולל דפי עבודה A4 עם Live Preview</h1>
+            <p class="text-gray-600">הכנס קוד HTML וראה תוצאה בפורמט A4 מוכן להדפסה</p>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div class="bg-white rounded-lg shadow-lg p-6">
@@ -23,46 +26,89 @@
                     <h2 class="text-2xl font-bold text-gray-800">עורך קוד</h2>
                     <button onclick="clearEditor()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">נקה</button>
                 </div>
-                <textarea id="codeEditor" class="editor w-full h-96 p-4 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none" placeholder="הכנס כאן HTML..." oninput="updatePreview()"><div style="direction: rtl; text-align: right; padding: 20px; font-family: Arial;">
-    <h1 style="color: #4F46E5; font-size: 2rem;">דף עבודה במתמטיקה</h1>
-    <div style="background: #F3F4F6; padding: 15px; border-radius: 8px; margin: 20px 0;">
-        <h2 style="color: #1F2937; font-size: 1.5rem;">שאלה 1: חיבור</h2>
-        <p style="font-size: 1.1rem;">5 + 7 = ___</p>
+                <textarea id="codeEditor" class="editor w-full h-96 p-4 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none" placeholder="הכנס כאן HTML..." oninput="updatePreview()"><div style="text-align: center; padding: 20px; font-family: Arial;">
+    <h1 style="color: #4F46E5; font-size: 2.5rem; margin-bottom: 30px;">דף עבודה במתמטיקה</h1>
+    <div style="background: #F3F4F6; padding: 20px; border-radius: 8px; margin: 30px 0; text-align: right;">
+        <h2 style="color: #1F2937; font-size: 1.8rem; margin-bottom: 15px;">שאלה 1: חיבור</h2>
+        <p style="font-size: 1.3rem;">5 + 7 = _______</p>
     </div>
-    <div style="background: #F3F4F6; padding: 15px; border-radius: 8px; margin: 20px 0;">
-        <h2 style="color: #1F2937; font-size: 1.5rem;">שאלה 2: חיסור</h2>
-        <p style="font-size: 1.1rem;">15 - 8 = ___</p>
+    <div style="background: #F3F4F6; padding: 20px; border-radius: 8px; margin: 30px 0; text-align: right;">
+        <h2 style="color: #1F2937; font-size: 1.8rem; margin-bottom: 15px;">שאלה 2: חיסור</h2>
+        <p style="font-size: 1.3rem;">15 - 8 = _______</p>
+    </div>
+    <div style="background: #F3F4F6; padding: 20px; border-radius: 8px; margin: 30px 0; text-align: right;">
+        <h2 style="color: #1F2937; font-size: 1.8rem; margin-bottom: 15px;">שאלה 3: כפל</h2>
+        <p style="font-size: 1.3rem;">6 × 4 = _______</p>
     </div>
 </div></textarea>
             </div>
             <div class="bg-white rounded-lg shadow-lg p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-2xl font-bold text-gray-800">תצוגה מקדימה</h2>
-                    <button onclick="exportToPDF()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">📥 ייצוא ל-PDF</button>
+                <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                    <h2 class="text-2xl font-bold text-gray-800">תצוגה A4</h2>
+                    <div class="flex gap-2">
+                        <button onclick="exportToPDF()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 flex items-center gap-2">
+                            📥 PDF
+                        </button>
+                        <button onclick="sendToWhatsApp()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 flex items-center gap-2">
+                            📱 שלח לווטסאפ
+                        </button>
+                    </div>
                 </div>
-                <div id="preview" class="h-96 overflow-auto p-4 rounded-lg"></div>
+                <div id="preview" class="overflow-auto" style="max-height: 600px;"></div>
             </div>
         </div>
         <div class="bg-white rounded-lg shadow-lg p-6 mt-6">
             <h3 class="text-xl font-bold text-gray-800 mb-3">איך להשתמש?</h3>
             <ul class="space-y-2 text-gray-700">
                 <li>✅ <strong>ערוך קוד HTML</strong> בעורך השמאלי</li>
-                <li>✅ <strong>ראה תצוגה מיידית</strong> בצד הימני</li>
-                <li>✅ <strong>ייצא ל-PDF</strong> בלחיצת הכפתור הירוק</li>
+                <li>✅ <strong>ראה תצוגה A4 מיידית</strong> (210×297mm) בצד הימני</li>
+                <li>✅ <strong>ייצא ל-PDF</strong> בלחיצה על הכפתור הירוק</li>
+                <li>✅ <strong>שלח ישירות לווטסאפ</strong> למספר שלך</li>
                 <li>✅ תמיכה מלאה ב<strong>עברית RTL</strong></li>
             </ul>
         </div>
     </div>
     <script>
         function updatePreview() {
-            document.getElementById('preview').innerHTML = document.getElementById('codeEditor').value;
+            const code = document.getElementById('codeEditor').value;
+            document.getElementById('preview').innerHTML = '<div class="a4-page" id="worksheet">' + code + '</div>';
         }
         function clearEditor() {
             document.getElementById('codeEditor').value = '';
             updatePreview();
         }
         function exportToPDF() {
-            html2pdf().set({margin: 1, filename: 'worksheet.pdf', html2canvas: {scale: 2}, jsPDF: {format: 'a4', orientation: 'portrait'}}).from(document.getElementById('preview')).save();
+            const element = document.getElementById('worksheet');
+            const opt = {
+                margin: 0,
+                filename: 'worksheet-a4.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+        function sendToWhatsApp() {
+            const element = document.getElementById('worksheet');
+            html2pdf().set({
+                margin: 0,
+                filename: 'worksheet.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).from(element).outputPdf('dataurlstring').then(function(pdfData) {
+                const message = 'דף עבודה חדש מוכן!';
+                const whatsappURL = 'https://wa.me/972523748115?text=' + encodeURIComponent(message + '\n\nהקובץ PDF נוצר בהצלחה. שמור אותו ושתף בווטסאפ!');
+                window.open(whatsappURL, '_blank');
+                alert('הקובץ PDF נוצר! עכשיו תועבר לווטסאפ. שמור את הקובץ ושתף אותו בשיחה.');
+                html2pdf().set({
+                    margin: 0,
+                    filename: 'worksheet.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                }).from(element).save();
+            });
         }
         updatePreview();
     </script>
