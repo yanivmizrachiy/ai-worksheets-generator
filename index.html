@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מחולל דפי עבודה - Live Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        .editor { font-family: 'Courier New', monospace; }
+        #preview { border: 1px solid #ddd; min-height: 400px; background: white; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen p-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h1 class="text-4xl font-bold text-indigo-600 mb-2">מחולל דפי עבודה עם Live Preview</h1>
+            <p class="text-gray-600">הכנס קוד HTML וראה תוצאה בזמן אמת עם יכולת ייצוא ל-PDF</p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">עורך קוד</h2>
+                    <button onclick="clearEditor()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">נקה</button>
+                </div>
+                <textarea id="codeEditor" class="editor w-full h-96 p-4 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none" placeholder="הכנס כאן HTML..." oninput="updatePreview()"><div style="direction: rtl; text-align: right; padding: 20px; font-family: Arial;">
+    <h1 style="color: #4F46E5; font-size: 2rem;">דף עבודה במתמטיקה</h1>
+    <div style="background: #F3F4F6; padding: 15px; border-radius: 8px; margin: 20px 0;">
+        <h2 style="color: #1F2937; font-size: 1.5rem;">שאלה 1: חיבור</h2>
+        <p style="font-size: 1.1rem;">5 + 7 = ___</p>
+    </div>
+    <div style="background: #F3F4F6; padding: 15px; border-radius: 8px; margin: 20px 0;">
+        <h2 style="color: #1F2937; font-size: 1.5rem;">שאלה 2: חיסור</h2>
+        <p style="font-size: 1.1rem;">15 - 8 = ___</p>
+    </div>
+</div></textarea>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">תצוגה מקדימה</h2>
+                    <button onclick="exportToPDF()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">📥 ייצוא ל-PDF</button>
+                </div>
+                <div id="preview" class="h-96 overflow-auto p-4 rounded-lg"></div>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-lg p-6 mt-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-3">איך להשתמש?</h3>
+            <ul class="space-y-2 text-gray-700">
+                <li>✅ <strong>ערוך קוד HTML</strong> בעורך השמאלי</li>
+                <li>✅ <strong>ראה תצוגה מיידית</strong> בצד הימני</li>
+                <li>✅ <strong>ייצא ל-PDF</strong> בלחיצת הכפתור הירוק</li>
+                <li>✅ תמיכה מלאה ב<strong>עברית RTL</strong></li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        function updatePreview() {
+            document.getElementById('preview').innerHTML = document.getElementById('codeEditor').value;
+        }
+        function clearEditor() {
+            document.getElementById('codeEditor').value = '';
+            updatePreview();
+        }
+        function exportToPDF() {
+            html2pdf().set({margin: 1, filename: 'worksheet.pdf', html2canvas: {scale: 2}, jsPDF: {format: 'a4', orientation: 'portrait'}}).from(document.getElementById('preview')).save();
+        }
+        updatePreview();
+    </script>
+</body>
+</html>
